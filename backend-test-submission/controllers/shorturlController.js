@@ -34,11 +34,9 @@ export async function createShortUrl(req, res) {
       "route",
       "Validity must be a positive integer representing minutes."
     );
-    return res
-      .status(400)
-      .json({
-        error: "Validity must be a positive integer representing minutes.",
-      });
+    return res.status(400).json({
+      error: "Validity must be a positive integer representing minutes.",
+    });
   }
 
   let code = shortcode;
@@ -99,12 +97,7 @@ export async function redirectShortUrl(req, res) {
 
   if (Date.now() > link.expiry) {
     shortlinks.delete(shortcode);
-    await Log(
-      "backend",
-      "error",
-      "route",
-      `Shortlink '${shortcode}' expired`
-    );
+    await Log("backend", "error", "route", `Shortlink '${shortcode}' expired`);
     return res.status(410).json({ error: "Shortlink expired" });
   }
 
